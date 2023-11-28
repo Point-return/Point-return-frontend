@@ -4,7 +4,8 @@ import {
   mockMarketingDealer,
   mockMarketingDealerprice,
   mockMarketingProductdealerkey,
-} from '@src/pages/ProposedProducts/mockData.ts';
+} from '@src/pages/ProposedProductsPage/mockData.ts';
+import './Product.scss';
 
 const getDealerName = (productId: number) => {
   const product = mockMarketingProductdealerkey.filter((item) => {
@@ -23,10 +24,7 @@ const Product: React.FC = () => {
     <Container maxWidth="l">
       <Flex direction="column" space="5">
         <Card
-          style={{
-            width: '100%',
-            padding: '15px',
-          }}
+          className="card__element"
           view="raised"
           type="container"
           theme="info"
@@ -34,12 +32,7 @@ const Product: React.FC = () => {
         >
           <Flex direction="row" space="5">
             <Flex direction="column" space="5">
-              <Flex
-                space="5"
-                style={{
-                  padding: '5px',
-                }}
-              >
+              <Flex space="5" className="card__element">
                 <Text variant="header-1">Продавeц:</Text>
               </Flex>
               <Flex

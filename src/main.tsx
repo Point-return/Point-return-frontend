@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './components/App/App.tsx';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
+import './style.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme="dark">
