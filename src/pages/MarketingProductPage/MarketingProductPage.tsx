@@ -1,8 +1,8 @@
 import React from 'react';
-import './MarketingProduct.scss';
+import './MarketingProductPage.scss';
 import MarketingProductList from '../../components/MarketingProductList/MarketingProductList';
 
-function MarketingProduct() {
+function MarketingProductPage() {
   return (
     <div className="marketing-product">
       <MarketingProductList />
@@ -10,4 +10,4 @@ function MarketingProduct() {
   );
 }
 
-export default MarketingProduct;
+export default MarketingProductPage;

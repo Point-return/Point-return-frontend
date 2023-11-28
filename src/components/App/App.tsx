@@ -1,8 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Main from '../../pages/Main/Main';
-import MarketingProduct from '../../pages/MarketingProduct/MarketingProduct';
+import MarketingProductPage from '../../pages/MarketingProductPage/MarketingProductPage';
 
 import './App.scss';
 
@@ -10,8 +9,7 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/marketing-products" element={<MarketingProduct />} />
+        <Route path="/" element={<MarketingProductPage />} />
       </Routes>
     </div>
   );
