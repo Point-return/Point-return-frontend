@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import MarketingProductPage from '../../pages/MarketingProductPage/MarketingProductPage';
-
+import ProposedProductsPage from '@src/pages/ProposedProductsPage/ProposedProductsPage.tsx';
 import './App.scss';
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<MarketingProductPage />} />
+        <Route path="/proposed-products" element={<ProposedProductsPage />} />
       </Routes>
     </div>
   );
