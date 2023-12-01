@@ -1,89 +1,116 @@
 import React, { useMemo, useState } from 'react';
+import {
+  Modal,
+  Text,
+  Table,
+  withTableSorting,
+  TextInput,
+  Card,
+  TableDataItem,
+  Pagination,
+  PaginationProps,
+} from '@gravity-ui/uikit';
+import {
+  useGetDealerProductsByIdQuery,
+  useGetDealersQuery,
+} from '@src/services/DealerService.ts';
+import MarketingProductInfo from '@components/MarketingProductInfo/MarketingProductInfo.tsx';
 import './MarketingProductList.scss';
-import { Table, withTableSorting, TextInput } from '@gravity-ui/uikit';
+// TODO: исправить все snake_case
+// TODO: сделать checkout -b от main
 
-const data = [
+const columns = [
+  { id: 'id', name: 'id', meta: { sort: true } },
+  { id: 'product_name', name: 'Название товара', meta: { sort: true } },
   {
-    id: 1,
-    name: 'Bath Acid Plus 0,75 л',
-    cost: 176,
-    minPrice: 176,
-    recommendedPrice: 176,
-    ozonName: 'Bath Acid Plus 0,75 л',
-    wbName: 'Bath Acid Plus 0,75 л',
+    id: 'manufacturer_name',
+    name: 'Товар производителя',
+    meta: { sort: true },
+    align: 'center' as const,
   },
-  {
-    id: 2,
-    name: 'Cooky Grill Gel 500 мл',
-    cost: 176,
-    minPrice: 176,
-    recommendedPrice: 176,
-    ozonName: 'Cooky Grill Gel 500 мл',
-    wbName: 'Cooky Grill Gel 500 мл',
-  },
-  {
-    id: 3,
-    name: 'Bath Acid Plus 0,75 л',
-    cost: 176,
-    minPrice: 176,
-    recommendedPrice: 176,
-    ozonName: 'Bath Acid Plus 0,75 л',
-    wbName: 'Bath Acid Plus 0,75 л',
-  },
-  {
-    id: 4,
-    name: 'Cooky Grill Gel 500 мл',
-    cost: 176,
-    minPrice: 176,
-    recommendedPrice: 176,
-    ozonName: 'Cooky Grill Gel 500 мл',
-    wbName: 'Cooky Grill Gel 500 мл',
-  },
-  {
-    id: 5,
-    name: 'Bath Acid Plus 0,75 л',
-    cost: 176,
-    minPrice: 176,
-    recommendedPrice: 176,
-    ozonName: 'Bath Acid Plus 0,75 л',
-    wbName: 'Bath Acid Plus 0,75 л',
-  },
+  { id: 'cost', name: 'Цена', meta: { sort: true } },
+  { id: 'date', name: 'Дата', meta: { sort: true } },
 ];
 
+export type ProductData = {
+  id: number;
+  product_name: string;
+  cost: number;
+  manufacturer_name: string;
+  date: Date;
+};
+
 function MarketingProductList() {
-  const MyTable = withTableSorting(Table);
+  const MarketingProductsTable = withTableSorting(Table);
   const [searchQuery, setSearchQuery] = useState('');
+  const [productItem, setProductItem] = useState<ProductData | TableDataItem>(
+    {},
+  );
+  const [open, setOpen] = useState(false);
+  const [state, setState] = React.useState({
+    page: 1,
+    pageSize: 10,
+  });
 
-  const columns = [
-    { id: 'id', name: '', meta: { sort: true } },
-    { id: 'name', name: 'Название', meta: { sort: true } },
-    { id: 'cost', name: 'Цена', meta: { sort: true } },
-    {
-      id: 'recommendedPrice',
-      name: 'Рекомендованная цена',
-      meta: { sort: true },
-    },
-    { id: 'ozonName', name: 'Название OZON', meta: { sort: true } },
-    { id: 'wbName', name: 'Название WB', meta: { sort: true } },
-  ];
+  const { data: dealers } = useGetDealersQuery();
+  // console.log(dealers);
 
-  const searchPosts = useMemo(() => {
-    return data.filter((post) => post.name.includes(searchQuery));
-  }, [searchQuery]);
+  const { data: dealerProducts } = useGetDealerProductsByIdQuery({
+    id: dealers ? dealers[1]?.id : 1,
+    size: state.pageSize,
+    page: state.page,
+  });
+
+  // console.log(dealerProducts);
+
+  const [searchPosts, total] = useMemo(() => {
+    const items = (dealerProducts?.items || []).filter((product: any) =>
+      product.product_name.includes(searchQuery),
+    );
+    // TODO: исправить все snake_case
+    const total = dealerProducts
+      ? dealerProducts.total_page * dealerProducts.size
+      : 0;
+
+    return [items, total];
+  }, [searchQuery, dealerProducts]);
+
+  const handleClick = (item: ProductData | TableDataItem) => {
+    setOpen(true);
+    setProductItem(item);
+  };
+
+  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
+    console.log(page, pageSize);
+    setState((prevState) => ({ ...prevState, page, pageSize }));
+  };
 
   return (
-    <div className="prouct-list">
+    <div className="product-list">
       <TextInput
-        className="prouct-list__search"
+        className="product-list__search"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Поиск"
+        placeholder="Поиск по названию"
       />
-      <MyTable
-        className="prouct-list__table"
-        data={searchPosts}
-        columns={columns}
-      />
+      <Card type="container" className="card__element">
+        <Text variant="header-2">Товары дилера</Text>
+        <MarketingProductsTable
+          data={searchPosts}
+          columns={columns}
+          onRowClick={handleClick}
+        />
+        <Pagination
+          page={state.page}
+          pageSize={state.pageSize}
+          total={total}
+          pageSizeOptions={[10, 50, 100]}
+          onUpdate={handleUpdate}
+        />
+      </Card>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <MarketingProductInfo product={productItem} />
+      </Modal>
     </div>
   );
 }
