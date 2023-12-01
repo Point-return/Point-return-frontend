@@ -32,7 +32,7 @@ const Product: React.FC = () => {
         >
           <Flex direction="row" space="5">
             <Flex direction="column" space="5">
-              <Flex space="5" className="card__element">
+              <Flex space="5">
                 <Text variant="header-1">Продавeц:</Text>
               </Flex>
               <Flex
