@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { store } from '@src/store/store.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={store()}>
+  <Provider store={store}>
     <ThemeProvider theme="dark">
       <BrowserRouter>
         <React.StrictMode>

@@ -7,17 +7,15 @@ const rootReducer = combineReducers({
   [dealerApi.reducerPath]: dealerApi.reducer,
 });
 
-export const store = () => {
-  return configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware().concat(
-        productApi.middleware,
-        dealerApi.middleware,
-      );
-    },
-  });
-};
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      productApi.middleware,
+      dealerApi.middleware,
+    );
+  },
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof store>;
+export type AppStore = typeof store;

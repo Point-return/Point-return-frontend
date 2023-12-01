@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL } from '@src/services/common/consts/ApiConsts.ts';
 import { getBackendURL } from '@src/services/common/utils/apiUtils.ts';
+import { DealersResponse } from '@src/services/models.ts';
 
 const ROOT_DEALER_PRODUCTS_URL = 'dealer';
 const ROOT_DEALERS_URL = 'dealers';
@@ -25,7 +26,7 @@ export const dealerApi = createApi({
       }),
     }),
     // TODO: fixed type (remove any)
-    getDealers: build.query<any, void>({
+    getDealers: build.query<DealersResponse, void>({
       query: () => ({
         url: `${DEALER_ENDPOINTS.getDealers}`,
         method: 'GET',

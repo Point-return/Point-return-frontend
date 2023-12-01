@@ -6,13 +6,18 @@
 
     &__search {
         width: 500px;
-        margin: 20px 0;
     }
 }
 
 .card {
-    width: 100%;
     &__element {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 960px;
         padding: 5px;
+    }
+    &__pagination {
+        margin: 4px;
     }
 }

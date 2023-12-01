@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import {
-  Modal,
   Text,
   Table,
   withTableSorting,
@@ -9,19 +8,24 @@ import {
   TableDataItem,
   Pagination,
   PaginationProps,
+  Menu,
+  Flex,
 } from '@gravity-ui/uikit';
 import {
   useGetDealerProductsByIdQuery,
   useGetDealersQuery,
 } from '@src/services/DealerService.ts';
-import MarketingProductInfo from '@components/MarketingProductInfo/MarketingProductInfo.tsx';
 import './MarketingProductList.scss';
-// TODO: исправить все snake_case
-// TODO: сделать checkout -b от main
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
-  { id: 'product_name', name: 'Название товара', meta: { sort: true } },
+  {
+    id: 'product_name',
+    name: 'Название товара',
+    meta: { sort: true },
+    width: '80%',
+  },
   {
     id: 'manufacturer_name',
     name: 'Товар производителя',
@@ -41,33 +45,28 @@ export type ProductData = {
 };
 
 function MarketingProductList() {
-  const MarketingProductsTable = withTableSorting(Table);
   const [searchQuery, setSearchQuery] = useState('');
-  const [productItem, setProductItem] = useState<ProductData | TableDataItem>(
-    {},
-  );
-  const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState(0);
+  const [dealerId, setDealerId] = useState(1);
   const [state, setState] = React.useState({
     page: 1,
     pageSize: 10,
   });
+  const navigate = useNavigate();
+  const MarketingProductsTable = withTableSorting(Table);
 
   const { data: dealers } = useGetDealersQuery();
-  // console.log(dealers);
-
   const { data: dealerProducts } = useGetDealerProductsByIdQuery({
-    id: dealers ? dealers[1]?.id : 1,
+    id: dealerId,
     size: state.pageSize,
     page: state.page,
   });
-
-  // console.log(dealerProducts);
 
   const [searchPosts, total] = useMemo(() => {
     const items = (dealerProducts?.items || []).filter((product: any) =>
       product.product_name.includes(searchQuery),
     );
-    // TODO: исправить все snake_case
+    // TODO: исправить все snake_case. После бэка.
     const total = dealerProducts
       ? dealerProducts.total_page * dealerProducts.size
       : 0;
@@ -76,41 +75,74 @@ function MarketingProductList() {
   }, [searchQuery, dealerProducts]);
 
   const handleClick = (item: ProductData | TableDataItem) => {
-    setOpen(true);
-    setProductItem(item);
+    navigate(`/dealer-product/${item.id}`);
   };
 
   const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
-    console.log(page, pageSize);
     setState((prevState) => ({ ...prevState, page, pageSize }));
   };
 
   return (
     <div className="product-list">
-      <TextInput
-        className="product-list__search"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Поиск по названию"
-      />
-      <Card type="container" className="card__element">
-        <Text variant="header-2">Товары дилера</Text>
-        <MarketingProductsTable
-          data={searchPosts}
-          columns={columns}
-          onRowClick={handleClick}
-        />
-        <Pagination
-          page={state.page}
-          pageSize={state.pageSize}
-          total={total}
-          pageSizeOptions={[10, 50, 100]}
-          onUpdate={handleUpdate}
-        />
-      </Card>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <MarketingProductInfo product={productItem} />
-      </Modal>
+      <Flex justifyContent="center" space={4}>
+        <Flex direction="column" space={5}>
+          <Text variant="header-2">Дилеры: </Text>
+          <Card type="container">
+            <Menu size="l">
+              {dealers?.map((dealer) => (
+                <Menu.Item
+                  key={dealer.id}
+                  active={activeId === dealer?.id}
+                  onClick={() => {
+                    setActiveId(dealer?.id);
+                    setDealerId(dealer?.id);
+                    setState((prevState) => ({
+                      ...prevState,
+                      page: 1,
+                      pageSize: 10,
+                    }));
+                  }}
+                >
+                  {dealer.name}
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Card>
+        </Flex>
+        <Flex
+          direction="column"
+          alignItems="left"
+          space={5}
+          justifyContent="center"
+        >
+          <Flex space={10}>
+            <Text variant="header-2">Товары: </Text>
+            <TextInput
+              className="product-list__search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Поиск по названию"
+            />
+          </Flex>
+          <Card type="container" className="card__element">
+            <Flex direction="column" space={5}>
+              <Pagination
+                className="card__pagination"
+                page={state.page}
+                pageSize={state.pageSize}
+                total={total}
+                pageSizeOptions={[10, 50, 100]}
+                onUpdate={handleUpdate}
+              />
+              <MarketingProductsTable
+                data={searchPosts}
+                columns={columns}
+                onRowClick={handleClick}
+              />
+            </Flex>
+          </Card>
+        </Flex>
+      </Flex>
     </div>
   );
 }
