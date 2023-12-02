@@ -1,0 +1,12 @@
+.navtab {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__link {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 3px;
+    }
+}
