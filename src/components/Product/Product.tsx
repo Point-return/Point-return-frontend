@@ -1,75 +1,37 @@
 import React from 'react';
 import { Card, Container, Flex, Link, Text } from '@gravity-ui/uikit';
-import {
-  mockMarketingDealer,
-  mockMarketingDealerprice,
-  mockMarketingProductdealerkey,
-} from '@src/pages/ProposedProductsPage/mockData.ts';
 import './Product.scss';
-
-const getDealerName = (productId: number) => {
-  const product = mockMarketingProductdealerkey.filter((item) => {
-    return item.key === productId;
-  })[0];
-  return mockMarketingDealer.filter(
-    (dealer) => dealer.id == product.dealerId,
-  )[0];
-};
+import { useLocation } from 'react-router';
+import { useGetDealersQuery } from '@src/services/DealerService';
+import ProposedProducts from '../ProposedProducts/ProposedProducts';
+import { DealerProduct } from '@src/services/models';
 
 const Product: React.FC = () => {
-  const product = mockMarketingDealerprice[0];
-  const dealer = getDealerName(product.productKey);
+  const location = useLocation();
+  const item = location.state;
+  const product = item as DealerProduct;
+
+  const { data: dealers } = useGetDealersQuery();
+
+  const getDealerName = (): string | undefined => {
+    const dealer = dealers?.filter(
+      (dealer) => dealer.id == product.dealerId,
+    )[0];
+    return dealer?.name;
+  };
 
   return (
-    <Container maxWidth="l">
-      <Flex direction="column" space="5">
+    <Container className="product__container">
+      <Flex direction="column" alignItems="center">
         <Card
-          className="card__element"
+          className="product__card"
           view="raised"
           type="container"
           theme="info"
-          size="l"
         >
-          <Flex direction="row" space="5">
-            <Flex direction="column" space="5">
-              <Flex space="5">
-                <Text variant="header-1">Продавeц:</Text>
-              </Flex>
-              <Flex
-                space="8"
-                style={{
-                  padding: '5px',
-                }}
-              >
-                <Text variant="header-1">Товар:</Text>
-              </Flex>
-            </Flex>
-            <Flex direction="column" space="5">
-              <Flex
-                space="5"
-                style={{
-                  padding: '5px',
-                }}
-              >
-                <Text variant="header-2">{dealer.name}</Text>
-              </Flex>
-              <Flex
-                space="5"
-                style={{
-                  padding: '5px',
-                }}
-              >
-                <Text variant="header-2">{product.productName}</Text>
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <Flex
-            space="5"
-            style={{
-              padding: '5px',
-            }}
-          >
+          <Flex direction="column">
+            <Text variant="header-1">Продавeц: {getDealerName()}</Text>
+            <Text variant="header-1">Товар: {product.productName}</Text>
             <Text variant="body-1">
               <Link href={product.productUrl} target="_blank">
                 URL продукта
@@ -77,6 +39,7 @@ const Product: React.FC = () => {
             </Text>
           </Flex>
         </Card>
+        <ProposedProducts dealerPriceId={product.id} />
       </Flex>
     </Container>
   );

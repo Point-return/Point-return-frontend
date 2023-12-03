@@ -73,7 +73,9 @@ const MarketingProductList: React.FC = () => {
   }, [searchQuery, dealerProducts]);
 
   const handleRowClick = (item: DealerProduct | TableDataItem): void => {
-    navigate(`/dealer-product/${item.id}`);
+    navigate(`/dealer-product/${item.id}`, {
+      state: item,
+    });
   };
 
   const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize): void => {
