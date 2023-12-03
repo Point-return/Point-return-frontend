@@ -1,11 +1,11 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { productApi } from '@src/services/ProductsService';
+import { proposedApi } from '@src/services/ProposedService';
 import { dealerApi } from '@src/services/DealerService.ts';
 import themeReducer from './reducers/themeSlice';
 import { recommendationsAPI } from '@src/services/common/RecommendationsService.ts';
 
 const rootReducer = combineReducers({
-  [productApi.reducerPath]: productApi.reducer,
+  [proposedApi.reducerPath]: proposedApi.reducer,
   [dealerApi.reducerPath]: dealerApi.reducer,
   [recommendationsAPI.reducerPath]: recommendationsAPI.reducer,
   themeReducer,
@@ -15,7 +15,7 @@ export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
-      productApi.middleware,
+      proposedApi.middleware,
       dealerApi.middleware,
       recommendationsAPI.middleware,
     );
