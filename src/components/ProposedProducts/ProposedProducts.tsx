@@ -9,11 +9,12 @@ import {
   Text,
   Flex,
 } from '@gravity-ui/uikit';
-import { mockMarketingProduct } from '@src/pages/ProposedProductsPage/mockData.ts';
 import ProposedProductInfo from '@components/ProposedProductInfo/ProposedProductInfo.tsx';
 import { CircleInfo } from '@gravity-ui/icons';
 import { Check } from '@gravity-ui/icons';
 import './ProposedProducts.scss';
+import { useGetProposedProductsQuery } from '@src/services/ProposedService';
+import Spinner from '../Spinner/Spinner';
 
 export type ProductItem = {
   id: string;
@@ -23,24 +24,26 @@ export type ProductItem = {
 
 const ProposedProductsTable = withTableActions(Table);
 
-const data: ProductItem[] = mockMarketingProduct.map((mockItem) => ({
-  id: mockItem.id,
-  item: mockItem.name,
-  accuracy: mockItem.accuracy,
-}));
-
 const columns = [
   { id: 'id', name: 'id' },
-  { id: 'accuracy', name: 'Точность' },
-  { id: 'item', name: 'Товар производителя' },
+  { id: 'levenshteinDistance', name: 'Точность' },
+  { id: 'productName', name: 'Товар производителя' },
 ];
 
-const ProposedProducts: React.FC = () => {
+interface ProposedProducts {
+  dealerPriceId: number;
+}
+
+const ProposedProducts: React.FC<ProposedProducts> = ({ dealerPriceId }) => {
   const [open, setOpen] = React.useState(false);
   const [index, setIndex] = React.useState<number | null>(null);
   const [productItem, setProductItem] = React.useState<
     ProductItem | TableDataItem
   >({});
+
+  const { data, isLoading, isError } = useGetProposedProductsQuery({
+    dealerPriceId,
+  });
 
   const handleClick = (item: ProductItem | TableDataItem, index: number) => {
     console.log('Click');
@@ -70,19 +73,29 @@ const ProposedProducts: React.FC = () => {
     ];
   };
 
+  //Temporary solution
+  const getProposedTable = () => {
+    if (!isLoading && !isError) {
+      return (
+        <ProposedProductsTable
+          data={data}
+          columns={columns}
+          getRowActions={getRowActions}
+          onRowClick={handleClick}
+        />
+      );
+    } else {
+      return <Text>Рекомендательная модель выбрана</Text>;
+    }
+  };
+
   return (
-    <Container maxWidth="l">
-      <Card className="card__element" type="container" size="l">
-        <Flex space="5" className="card__element">
+    <Container className="proposed-products">
+      <Card className="proposed-products__card">
+        <Flex direction="column">
           <Text variant="header-1">Рекомендательная система</Text>
-        </Flex>
-        <Flex className="card__element">
-          <ProposedProductsTable
-            data={data}
-            columns={columns}
-            getRowActions={getRowActions}
-            onRowClick={handleClick}
-          />
+          {isLoading && <Spinner />}
+          {getProposedTable()}
         </Flex>
       </Card>
       <Modal open={open} onClose={() => setOpen(false)}>
