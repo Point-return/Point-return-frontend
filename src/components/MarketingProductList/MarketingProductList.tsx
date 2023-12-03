@@ -15,40 +15,38 @@ import {
   useGetDealerProductsByIdQuery,
   useGetDealersQuery,
 } from '@src/services/DealerService.ts';
-import './MarketingProductList.scss';
+import { Dealer, DealerProduct } from '@src/services/models.ts';
 import { useNavigate } from 'react-router-dom';
+import './MarketingProductList.scss';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
   {
-    id: 'product_name',
+    id: 'productName',
     name: 'Название товара',
     meta: { sort: true },
     width: '80%',
   },
   {
-    id: 'manufacturer_name',
-    name: 'Товар производителя',
+    id: 'productKey',
+    name: 'id товара производителя',
     meta: { sort: true },
     align: 'center' as const,
   },
-  { id: 'cost', name: 'Цена', meta: { sort: true } },
+  { id: 'price', name: 'Цена', meta: { sort: true } },
   { id: 'date', name: 'Дата', meta: { sort: true } },
 ];
 
-export type ProductData = {
-  id: number;
-  product_name: string;
-  cost: number;
-  manufacturer_name: string;
-  date: Date;
+type TTableState = {
+  page: number;
+  pageSize: number;
 };
 
-function MarketingProductList() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeId, setActiveId] = useState(0);
-  const [dealerId, setDealerId] = useState(1);
-  const [state, setState] = React.useState({
+const MarketingProductList: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [activeId, setActiveId] = useState<number>(0);
+  const [dealerId, setDealerId] = useState<number>(1);
+  const [tableState, setTableState] = useState<TTableState>({
     page: 1,
     pageSize: 10,
   });
@@ -58,28 +56,28 @@ function MarketingProductList() {
   const { data: dealers } = useGetDealersQuery();
   const { data: dealerProducts } = useGetDealerProductsByIdQuery({
     id: dealerId,
-    size: state.pageSize,
-    page: state.page,
+    size: tableState.pageSize,
+    page: tableState.page,
   });
 
-  const [searchPosts, total] = useMemo(() => {
-    const items = (dealerProducts?.items || []).filter((product: any) =>
-      product.product_name.includes(searchQuery),
+  const [searchPosts, total] = useMemo<[DealerProduct[], number]>(() => {
+    const items: DealerProduct[] = (dealerProducts?.items || []).filter(
+      (product: DealerProduct) => product.productName.includes(searchQuery),
     );
-    // TODO: исправить все snake_case. После бэка.
+
     const total = dealerProducts
-      ? dealerProducts.total_page * dealerProducts.size
+      ? dealerProducts.totalPage * dealerProducts.size
       : 0;
 
     return [items, total];
   }, [searchQuery, dealerProducts]);
 
-  const handleClick = (item: ProductData | TableDataItem) => {
+  const handleRowClick = (item: DealerProduct | TableDataItem): void => {
     navigate(`/dealer-product/${item.id}`);
   };
 
-  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
-    setState((prevState) => ({ ...prevState, page, pageSize }));
+  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize): void => {
+    setTableState((prevState) => ({ ...prevState, page, pageSize }));
   };
 
   return (
@@ -89,14 +87,14 @@ function MarketingProductList() {
           <Text variant="header-2">Дилеры: </Text>
           <Card type="container">
             <Menu size="l">
-              {dealers?.map((dealer) => (
+              {dealers?.map((dealer: Dealer) => (
                 <Menu.Item
                   key={dealer.id}
                   active={activeId === dealer?.id}
                   onClick={() => {
                     setActiveId(dealer?.id);
                     setDealerId(dealer?.id);
-                    setState((prevState) => ({
+                    setTableState((prevState: TTableState) => ({
                       ...prevState,
                       page: 1,
                       pageSize: 10,
@@ -120,7 +118,9 @@ function MarketingProductList() {
             <TextInput
               className="product-list__search"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchQuery(e.target.value)
+              }
               placeholder="Поиск по названию"
             />
           </Flex>
@@ -128,8 +128,8 @@ function MarketingProductList() {
             <Flex direction="column" space={5}>
               <Pagination
                 className="card__pagination"
-                page={state.page}
-                pageSize={state.pageSize}
+                page={tableState.page}
+                pageSize={tableState.pageSize}
                 total={total}
                 pageSizeOptions={[10, 50, 100]}
                 onUpdate={handleUpdate}
@@ -137,7 +137,7 @@ function MarketingProductList() {
               <MarketingProductsTable
                 data={searchPosts}
                 columns={columns}
-                onRowClick={handleClick}
+                onRowClick={handleRowClick}
               />
             </Flex>
           </Card>
@@ -145,6 +145,6 @@ function MarketingProductList() {
       </Flex>
     </div>
   );
-}
+};
 
 export default MarketingProductList;
