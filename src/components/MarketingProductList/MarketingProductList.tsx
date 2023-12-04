@@ -75,13 +75,13 @@ const MarketingProductList: React.FC = () => {
     return [items, total];
   }, [searchQuery, dealerProducts]);
 
-  const [postProduct] = usePostProductMutation();
+  const [postProduct, result] = usePostProductMutation();
 
   useEffect(() => {
     postProduct({ dealerId: 3, productId: 10 });
   }, [postProduct]);
 
-  // console.log(result);
+  console.log(result);
 
   const handleRowClick = (item: DealerProduct | TableDataItem): void => {
     navigate(`/dealer-product/${item.id}`, {

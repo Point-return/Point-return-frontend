@@ -27,7 +27,7 @@ const ProposedProductsTable = withTableActions(Table);
 const columns = [
   { id: 'id', name: 'id' },
   { id: 'levenshteinDistance', name: 'Точность' },
-  { id: 'productName', name: 'Товар производителя' },
+  { id: 'productName', name: 'Товар производителя', width: 730 },
 ];
 
 interface ProposedProducts {
