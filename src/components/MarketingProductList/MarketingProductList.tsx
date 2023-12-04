@@ -18,6 +18,11 @@ import {
 import { Dealer, DealerProduct } from '@src/services/models.ts';
 import { useNavigate } from 'react-router-dom';
 import './MarketingProductList.scss';
+import StatsItem from '../StatsItems/StatsItem';
+import {
+  useGetDealerlStatisticQuery,
+  useGetGlobalStatisticQuery,
+} from '@src/services/StatisticsService';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
@@ -59,6 +64,8 @@ const MarketingProductList: React.FC = () => {
     size: tableState.pageSize,
     page: tableState.page,
   });
+  const { data: GlobalStats } = useGetGlobalStatisticQuery();
+  const { data: DealerStats } = useGetDealerlStatisticQuery({ dealerId });
 
   const [searchPosts, total] = useMemo<[DealerProduct[], number]>(() => {
     const items: DealerProduct[] = (dealerProducts?.items || []).filter(
@@ -136,6 +143,7 @@ const MarketingProductList: React.FC = () => {
                 pageSizeOptions={[10, 50, 100]}
                 onUpdate={handleUpdate}
               />
+
               <MarketingProductsTable
                 data={searchPosts}
                 columns={columns}
@@ -143,6 +151,10 @@ const MarketingProductList: React.FC = () => {
               />
             </Flex>
           </Card>
+        </Flex>
+        <Flex direction="column" space={3}>
+          <StatsItem title="Общая статистика:" statistic={GlobalStats} />
+          <StatsItem title="Статистика по дилеру:" statistic={DealerStats} />
         </Flex>
       </Flex>
     </div>
