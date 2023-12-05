@@ -27,3 +27,13 @@ export type DealerProductsByIdRequest = {
   size: number;
   page: number;
 };
+
+export type StatisticResponse = {
+  QuantitySkipped: number;
+  QuantitySuccessfull: number;
+  percent: string;
+};
+
+export type StatisticRequest = {
+  dealerId: number;
+};
