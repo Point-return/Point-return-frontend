@@ -1,17 +1,13 @@
 import React from 'react';
-import { Flex } from '@gravity-ui/uikit';
-/* import Spinner from '@components/Spinner/Spinner.tsx'; */
 import Product from '@components/Product/Product.tsx';
-/* import ProposedProducts from '@components/ProposedProducts/ProposedProducts.tsx'; */
+import { Container } from '@gravity-ui/uikit';
 import './ProposedProductPage.scss';
 
 const ProposedProductsPage = () => {
   return (
-    <div className="proposed-product">
-      <Flex direction="column">
-        <Product />
-      </Flex>
-    </div>
+    <Container className="proposed-product">
+      <Product />
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Text,
   Table,
@@ -18,7 +18,6 @@ import {
 import { Dealer, DealerProduct } from '@src/services/models.ts';
 import { useNavigate } from 'react-router-dom';
 import './MarketingProductList.scss';
-import { usePostProductMutation } from '@src/services/common/RecommendationsService.ts';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
@@ -26,7 +25,7 @@ const columns = [
     id: 'productName',
     name: 'Название товара',
     meta: { sort: true },
-    width: '80%',
+    width: '90%',
   },
   {
     id: 'productKey',
@@ -61,7 +60,7 @@ const MarketingProductList: React.FC = () => {
     page: tableState.page,
   });
 
-  console.log(dealerProducts);
+  // console.log(dealerProducts);
 
   const [searchPosts, total] = useMemo<[DealerProduct[], number]>(() => {
     const items: DealerProduct[] = (dealerProducts?.items || []).filter(
@@ -75,13 +74,13 @@ const MarketingProductList: React.FC = () => {
     return [items, total];
   }, [searchQuery, dealerProducts]);
 
-  const [postProduct, result] = usePostProductMutation();
-
-  useEffect(() => {
-    postProduct({ dealerId: 3, productId: 10 });
-  }, [postProduct]);
-
-  console.log(result);
+  // const [postProduct, result] = usePostProductMutation();
+  //
+  // useEffect(() => {
+  //   postProduct({ dealerId: 3, productId: 10 });
+  // }, [postProduct]);
+  //
+  // console.log(result);
 
   const handleRowClick = (item: DealerProduct | TableDataItem): void => {
     navigate(`/dealer-product/${item.id}`, {
