@@ -46,3 +46,9 @@ export type chooseProductRequest = {
 export type skipProductRequest = {
   dealerId: number;
 };
+
+export interface IUser {
+  id: number;
+  email: string;
+  username: string;
+}
