@@ -37,7 +37,6 @@ const Product: React.FC = () => {
   };
 
   const handleSkipClick = () => {
-    debugger;
     try {
       skipProduct({ dealerId: product.id });
       navigate('/');

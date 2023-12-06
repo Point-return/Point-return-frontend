@@ -37,3 +37,12 @@ export type StatisticResponse = {
 export type StatisticRequest = {
   dealerId: number;
 };
+
+export type chooseProductRequest = {
+  dealerId: number;
+  productId: number;
+};
+
+export type skipProductRequest = {
+  dealerId: number;
+};

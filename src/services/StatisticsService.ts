@@ -9,7 +9,7 @@ const ROOT_DEALER_STATISTICS_URL = 'statistics';
 
 export const PROPOSED_ENDPOINTS = {
   getGlobalStatistic: getBackendURL(`${ROOT_GLOBAL_STATISTICS_URL}`),
-  getDealerlStatistic: getBackendURL(`${ROOT_DEALER_STATISTICS_URL}`),
+  getDealerStatistic: getBackendURL(`${ROOT_DEALER_STATISTICS_URL}`),
 };
 
 export const statisticsApi = createApi({
@@ -22,14 +22,14 @@ export const statisticsApi = createApi({
         method: 'GET',
       }),
     }),
-    getDealerlStatistic: build.query<StatisticResponse, StatisticRequest>({
+    getDealerStatistic: build.query<StatisticResponse, StatisticRequest>({
       query: ({ dealerId }) => ({
-        url: `${PROPOSED_ENDPOINTS.getDealerlStatistic}/${dealerId}`,
+        url: `${PROPOSED_ENDPOINTS.getDealerStatistic}/${dealerId}`,
         method: 'GET',
       }),
     }),
   }),
 });
 
-export const { useGetGlobalStatisticQuery, useGetDealerlStatisticQuery } =
+export const { useGetGlobalStatisticQuery, useGetDealerStatisticQuery } =
   statisticsApi;

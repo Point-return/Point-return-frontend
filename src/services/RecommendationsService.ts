@@ -2,6 +2,10 @@ import { getBackendURL } from '@src/services/common/utils/apiUtils.ts';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BASE_URL } from '@src/services/common/consts/ApiConsts.ts';
+import {
+  chooseProductRequest,
+  skipProductRequest,
+} from '@src/services/models.ts';
 
 const ROOT_RECOMMENDATIONS_URL = 'recommendations';
 
@@ -17,16 +21,14 @@ export const recommendationsAPI = createApi({
   }),
   tagTypes: ['recomendations'],
   endpoints: (build) => ({
-    // TODO check types after backend updating
-    chooseProduct: build.mutation<any, any>({
+    chooseProduct: build.mutation<void, chooseProductRequest>({
       query: ({ dealerId, productId }) => ({
         url: `${RECOMMENDATIONS_ENDPOINTS.chooseProduct}/${dealerId}/choose`,
-        params: { product_id: productId },
+        params: { productId: productId },
         method: 'PATCH',
       }),
     }),
-    // TODO check types after backend updating
-    skipProduct: build.mutation<any, { dealerId: number }>({
+    skipProduct: build.mutation<void, skipProductRequest>({
       query: ({ dealerId }) => ({
         url: `${RECOMMENDATIONS_ENDPOINTS.skipProduct}/${dealerId}/skip`,
         method: 'PATCH',
@@ -35,4 +37,5 @@ export const recommendationsAPI = createApi({
   }),
 });
 
-export const { useChooseProductMutation, useSkipProductMutation } = recommendationsAPI;
+export const { useChooseProductMutation, useSkipProductMutation } =
+  recommendationsAPI;
