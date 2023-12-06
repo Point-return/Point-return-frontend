@@ -7,14 +7,16 @@ import {
   Icon,
   Persona,
 } from '@gravity-ui/uikit';
-import { useAppSelector } from '@src/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@src/hooks/redux';
 import { useLogoutUserMutation } from '@src/services/AuthService';
+import { logout } from '@src/store/reducers/userSlice';
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function UserMenu() {
   const navigation = useNavigate();
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userReducer);
   const [logoutUser] = useLogoutUserMutation();
 
@@ -39,9 +41,10 @@ function UserMenu() {
             },
             {
               icon: <Icon size={16} data={ArrowRightFromSquare} />,
-              action: () => {
-                logoutUser();
-                navigation('/login');
+              action: async () => {
+                await logoutUser();
+                navigation('/login', { replace: true });
+                dispatch(logout());
               },
               text: 'Выйти',
               theme: 'danger',

@@ -27,7 +27,7 @@ export const authApi = createApi({
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(userApi.endpoints.getUser.initiate());
+          await dispatch(userApi.endpoints.getUser.initiate(undefined));
         } catch (err) {
           console.log(err);
         }

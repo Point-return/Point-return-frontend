@@ -14,22 +14,31 @@ import './AuthForm.scss';
 import useValidation from '@src/hooks/Validation';
 import { useLoginUserMutation } from '@src/services/AuthService';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '@src/hooks/redux';
+import { setUser } from '@src/store/reducers/userSlice';
+import { useGetUserQuery } from '@src/services/UserService';
+import { IUser } from '@src/services/models';
 
 const AuthForm: FC = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const { values, errors, isValid, onChange } = useValidation();
   const [loginUser, { isSuccess, isLoading, isError }] = useLoginUserMutation();
+  const { data } = useGetUserQuery();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { add } = useToaster();
+
+  const userData = data as IUser;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await loginUser(values);
+    dispatch(setUser(userData));
   };
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/');
+      navigate('/', { replace: true });
       add({
         title: 'Успешный вход',
         name: 'success',
