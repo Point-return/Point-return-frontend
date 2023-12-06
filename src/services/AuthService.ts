@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { BASE_URL } from '@src/services/common/consts/ApiConsts.ts';
 import { getBackendAuthURL } from '@src/services/common/utils/apiUtils.ts';
-import { userApi } from './UserService';
+/* import { userApi } from './UserService'; */
 import { logout } from '@src/store/reducers/userSlice';
 
 const ROOT_LOGIN_URL = 'auth/login';
@@ -24,14 +24,6 @@ export const authApi = createApi({
         body: postBody,
         credentials: 'include',
       }),
-      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          await dispatch(userApi.endpoints.getUser.initiate(undefined));
-        } catch (err) {
-          console.log(err);
-        }
-      },
     }),
     logoutUser: builder.mutation<void, void>({
       query: () => ({
