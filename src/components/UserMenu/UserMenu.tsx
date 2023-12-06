@@ -17,12 +17,14 @@ import { useNavigate } from 'react-router-dom';
 function UserMenu() {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { user, loggedIn } = useAppSelector((state) => state.userReducer);
   const [logoutUser] = useLogoutUserMutation();
+
+  console.log(user);
 
   const userName = user?.username as string;
 
-  return user ? (
+  return loggedIn ? (
     <Card type="action">
       <Flex>
         <Persona type="person" text={userName} hasBorder={false} />
