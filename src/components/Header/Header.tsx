@@ -9,13 +9,13 @@ import UserMenu from '@components/UserMenu/UserMenu.tsx';
 
 function Header() {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { loggedIn } = useAppSelector((state) => state.userReducer);
   const { theme } = useAppSelector((state) => state.themeReducer);
 
   return (
     <Container className="header">
       <Text variant="display-1">PROSEPT</Text>
-      {user && <NavTab />}
+      {loggedIn && <NavTab />}
       <Flex space={2}>
         <UserMenu />
         <Button onClick={() => dispatch(toggleTheme())}>
