@@ -5,7 +5,7 @@ import './ProposedProductPage.scss';
 
 const ProposedProductsPage = () => {
   return (
-    <Container className="proposed-product">
+    <Container>
       <Product />
     </Container>
   );

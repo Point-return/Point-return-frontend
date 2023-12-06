@@ -18,7 +18,7 @@ function App() {
   return (
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <ToasterProvider>
-        <div className="app">
+        <>
           <Header />
           <Routes>
             <Route element={<ProtectedRouteElement />}>
@@ -32,7 +32,7 @@ function App() {
             </Route>
             <Route path="/login" element={<AuthPage />} />
           </Routes>
-        </div>
+        </>
         <ToasterComponent />
       </ToasterProvider>
     </ThemeProvider>
