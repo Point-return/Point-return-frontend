@@ -15,6 +15,7 @@ export const PROPOSED_ENDPOINTS = {
 export const statisticsApi = createApi({
   reducerPath: 'statisticsApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  refetchOnMountOrArgChange: 1,
   endpoints: (build) => ({
     getGlobalStatistic: build.query<StatisticResponse, void>({
       query: () => ({
