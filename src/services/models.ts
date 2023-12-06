@@ -40,7 +40,7 @@ export type StatisticRequest = {
 
 export type chooseProductRequest = {
   dealerId: number;
-  productId: number;
+  productId: number | unknown;
 };
 
 export type skipProductRequest = {
@@ -52,3 +52,24 @@ export interface IUser {
   email: string;
   username: string;
 }
+
+export type getManufacturerProductByKeyRequest = {
+  article: string;
+  categoryId: number;
+  cost: number;
+  ean13: string;
+  id: number;
+  name: string;
+  name1c: string;
+  ozonArticle: string;
+  ozonName: string;
+  recomendedPrice: string;
+  wbArticle: string;
+  wbArticleTd: string;
+  wbName: string;
+  ymArticle: string;
+};
+
+export type getManufacturerProductByKeyResponse = {
+  productKey: number;
+};

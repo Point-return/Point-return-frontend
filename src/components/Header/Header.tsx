@@ -1,11 +1,11 @@
 import React from 'react';
 import './Header.scss';
-import NavTab from '../NavTab/NavTab';
+import NavTab from '@components/NavTab/NavTab.tsx';
 import { Container, Text, Button, Icon, Flex } from '@gravity-ui/uikit';
 import { useAppDispatch, useAppSelector } from '@src/hooks/redux';
 import { toggleTheme } from '@src/store/reducers/themeSlice';
 import { Sun, Moon } from '@gravity-ui/icons';
-import UserMenu from '../UserMenu/UserMenu';
+import UserMenu from '@components/UserMenu/UserMenu.tsx';
 
 function Header() {
   const dispatch = useAppDispatch();

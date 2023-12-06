@@ -11,6 +11,8 @@ import {
   Menu,
   Flex,
   Container,
+  withTableActions,
+  Modal,
 } from '@gravity-ui/uikit';
 import {
   useGetDealerProductsByIdQuery,
@@ -19,11 +21,12 @@ import {
 import { Dealer, DealerProduct } from '@src/services/models.ts';
 import { useNavigate } from 'react-router-dom';
 import './MarketingProductList.scss';
-import StatsItem from '../StatsItems/StatsItem';
+import StatsItem from '@components/StatsItems/StatsItem.tsx';
 import {
   useGetDealerStatisticQuery,
   useGetGlobalStatisticQuery,
 } from '@src/services/StatisticsService';
+import MarketingProductInfo from '@components/MarketingProductInfo/MarketingProductInfo.tsx';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
@@ -56,8 +59,13 @@ const MarketingProductList: React.FC = () => {
     page: 1,
     pageSize: 10,
   });
+  const [isOpenProductInfo, setIsOpenProductInfo] = useState<boolean>(false);
+  const [productItem, setProductItem] = useState<DealerProduct | TableDataItem>(
+    {},
+  );
+
   const navigate = useNavigate();
-  const MarketingProductsTable = withTableSorting(Table);
+  const MarketingProductsTable = withTableActions(withTableSorting(Table));
 
   const { data: dealers } = useGetDealersQuery();
   const { data: dealerProducts } = useGetDealerProductsByIdQuery({
@@ -79,6 +87,20 @@ const MarketingProductList: React.FC = () => {
 
     return [items, total];
   }, [searchQuery, dealerProducts]);
+
+  const getRowActions = () => {
+    return [
+      {
+        text: 'Посмотреть товар производителя',
+        handler: handleAction,
+      },
+    ];
+  };
+
+  const handleAction = (item: DealerProduct | TableDataItem) => {
+    setProductItem(item);
+    setIsOpenProductInfo(true);
+  };
 
   const handleRowClick = (item: DealerProduct | TableDataItem): void => {
     navigate(`/dealer-product/${item.id}`, {
@@ -153,11 +175,18 @@ const MarketingProductList: React.FC = () => {
                 data={searchPosts}
                 columns={columns}
                 onRowClick={handleRowClick}
+                getRowActions={getRowActions}
               />
             </Flex>
           </Card>
         </Flex>
       </Flex>
+      <Modal
+        open={isOpenProductInfo}
+        onClose={() => setIsOpenProductInfo(false)}
+      >
+        <MarketingProductInfo item={productItem} />
+      </Modal>
     </Container>
   );
 };

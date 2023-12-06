@@ -8,7 +8,6 @@ interface StatsItemProps {
 }
 
 const StatsItem: FC<StatsItemProps> = ({ title, statistic }) => {
-  console.log(statistic);
   return (
     <>
       <Flex direction="column" space={5}>
