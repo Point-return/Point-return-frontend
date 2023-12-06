@@ -47,11 +47,11 @@ export type skipProductRequest = {
   dealerId: number;
 };
 
-export interface IUser {
+export type IUser = {
   id: number;
   email: string;
   username: string;
-}
+};
 
 export type getManufacturerProductByKeyRequest = {
   article: string;
