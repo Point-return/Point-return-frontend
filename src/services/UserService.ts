@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { BASE_URL } from '@src/services/common/consts/ApiConsts.ts';
 import { getBackendAuthURL } from '@src/services/common/utils/apiUtils.ts';
-import { IUser, setUser } from '@src/store/reducers/userSlice';
+import { setUser } from '@src/store/reducers/userSlice';
+import { IUser } from './models';
 
 const ROOT_USER_URL = 'users/me';
 
@@ -14,7 +15,7 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
-    getUser: builder.query<any, any>({
+    getUser: builder.query<IUser, null>({
       query: () => ({
         url: `${PROPOSED_ENDPOINTS.getUser}`,
         method: 'GET',
@@ -24,7 +25,6 @@ export const userApi = createApi({
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           dispatch(setUser(data));
         } catch (err) {
           console.log(err);

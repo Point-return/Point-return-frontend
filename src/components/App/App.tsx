@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@gravity-ui/uikit';
+import { ToasterComponent, ToasterProvider } from '@gravity-ui/uikit';
 
 import MarketingProductPage from '@src/pages/MarketingProductPage/MarketingProductPage';
 import ProposedProductsPage from '@src/pages/ProposedProductsPage/ProposedProductsPage.tsx';
@@ -16,21 +17,24 @@ function App() {
 
   return (
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
-      <div className="app">
-        <Header />
-        <Routes>
-          <Route element={<ProtectedRouteElement />}>
-            <Route path="/" element={<MarketingProductPage />} />
-          </Route>
-          <Route element={<ProtectedRouteElement />}>
-            <Route
-              path="/dealer-product/:id"
-              element={<ProposedProductsPage />}
-            />
-          </Route>
-          <Route path="/login" element={<AuthPage />} />
-        </Routes>
-      </div>
+      <ToasterProvider>
+        <div className="app">
+          <Header />
+          <Routes>
+            <Route element={<ProtectedRouteElement />}>
+              <Route path="/" element={<MarketingProductPage />} />
+            </Route>
+            <Route element={<ProtectedRouteElement />}>
+              <Route
+                path="/dealer-product/:id"
+                element={<ProposedProductsPage />}
+              />
+            </Route>
+            <Route path="/login" element={<AuthPage />} />
+          </Routes>
+        </div>
+        <ToasterComponent />
+      </ToasterProvider>
     </ThemeProvider>
   );
 }

@@ -27,3 +27,9 @@ export type DealerProductsByIdRequest = {
   size: number;
   page: number;
 };
+
+export interface IUser {
+  id: number;
+  email: string;
+  username: string;
+}

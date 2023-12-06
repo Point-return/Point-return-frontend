@@ -3,7 +3,7 @@ import isEmail from 'validator/es/lib/isEmail';
 
 function useValidation() {
   const [values, setValues] = useState<any>({});
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<any>({});
   const [isValid, setValid] = useState(false);
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -13,6 +13,8 @@ function useValidation() {
       target.setCustomValidity(
         'Укажите правильно e-mail в формате name@example.ru',
       );
+    } else if ((name === 'password' && value.length < 3) || value.length > 20) {
+      target.setCustomValidity('Длина пароля должны быть от 3 до 20 символов');
     } else {
       target.setCustomValidity('');
     }

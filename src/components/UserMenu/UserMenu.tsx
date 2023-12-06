@@ -1,4 +1,4 @@
-import { Bars, Pencil, TrashBin } from '@gravity-ui/icons';
+import { Bars, At, ArrowRightFromSquare } from '@gravity-ui/icons';
 import {
   Button,
   Card,
@@ -21,7 +21,7 @@ function UserMenu() {
   const userName = user?.username as string;
 
   return user ? (
-    <Card>
+    <Card type="action">
       <Flex>
         <Persona type="person" text={userName} hasBorder={false} />
         <DropdownMenu
@@ -32,12 +32,13 @@ function UserMenu() {
           }
           items={[
             {
-              icon: <Icon size={16} data={Pencil} />,
+              icon: <Icon size={16} data={At} />,
               action: () => console.log('Rename'),
               text: `${user?.email}`,
+              disabled: true,
             },
             {
-              icon: <Icon size={16} data={TrashBin} />,
+              icon: <Icon size={16} data={ArrowRightFromSquare} />,
               action: () => {
                 logoutUser();
                 navigation('/login');
