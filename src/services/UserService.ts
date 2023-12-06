@@ -15,7 +15,7 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
-    getUser: builder.query<IUser, null>({
+    getUser: builder.query<IUser, void>({
       query: () => ({
         url: `${PROPOSED_ENDPOINTS.getUser}`,
         method: 'GET',
