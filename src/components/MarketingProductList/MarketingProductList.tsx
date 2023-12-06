@@ -10,6 +10,7 @@ import {
   PaginationProps,
   Menu,
   Flex,
+  Container,
 } from '@gravity-ui/uikit';
 import {
   useGetDealerProductsByIdQuery,
@@ -20,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import './MarketingProductList.scss';
 import StatsItem from '../StatsItems/StatsItem';
 import {
-  useGetDealerlStatisticQuery,
+  useGetDealerStatisticQuery,
   useGetGlobalStatisticQuery,
 } from '@src/services/StatisticsService';
 
@@ -30,7 +31,7 @@ const columns = [
     id: 'productName',
     name: 'Название товара',
     meta: { sort: true },
-    width: '80%',
+    width: '90%',
   },
   {
     id: 'productKey',
@@ -65,7 +66,7 @@ const MarketingProductList: React.FC = () => {
     page: tableState.page,
   });
   const { data: GlobalStats } = useGetGlobalStatisticQuery();
-  const { data: DealerStats } = useGetDealerlStatisticQuery({ dealerId });
+  const { data: DealerStats } = useGetDealerStatisticQuery({ dealerId });
 
   const [searchPosts, total] = useMemo<[DealerProduct[], number]>(() => {
     const items: DealerProduct[] = (dealerProducts?.items || []).filter(
@@ -90,7 +91,7 @@ const MarketingProductList: React.FC = () => {
   };
 
   return (
-    <div className="product-list">
+    <Container className="product-list">
       <Flex justifyContent="center" space={4}>
         <Flex direction="column" space={5}>
           <Text variant="header-2">Дилеры: </Text>
@@ -115,6 +116,10 @@ const MarketingProductList: React.FC = () => {
               ))}
             </Menu>
           </Card>
+          <Flex direction="column" space={3}>
+            <StatsItem title="Общая статистика:" statistic={GlobalStats} />
+            <StatsItem title="Статистика по дилеру:" statistic={DealerStats} />
+          </Flex>
         </Flex>
         <Flex
           direction="column"
@@ -152,12 +157,8 @@ const MarketingProductList: React.FC = () => {
             </Flex>
           </Card>
         </Flex>
-        <Flex direction="column" space={3}>
-          <StatsItem title="Общая статистика:" statistic={GlobalStats} />
-          <StatsItem title="Статистика по дилеру:" statistic={DealerStats} />
-        </Flex>
       </Flex>
-    </div>
+    </Container>
   );
 };
 

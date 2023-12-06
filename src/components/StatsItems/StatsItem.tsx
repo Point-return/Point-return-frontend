@@ -8,6 +8,7 @@ interface StatsItemProps {
 }
 
 const StatsItem: FC<StatsItemProps> = ({ title, statistic }) => {
+  console.log(statistic);
   return (
     <>
       <Flex direction="column" space={5}>
@@ -37,7 +38,14 @@ const StatsItem: FC<StatsItemProps> = ({ title, statistic }) => {
               >
                 Пропущено
               </Label>
-              <Label theme="info" value={statistic.percent}>
+              <Label
+                theme="info"
+                value={
+                  statistic.percent === '-'
+                    ? statistic.percent
+                    : `${statistic.percent}%`
+                }
+              >
                 Соотношение
               </Label>
             </Flex>

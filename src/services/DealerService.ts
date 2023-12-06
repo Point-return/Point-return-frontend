@@ -20,6 +20,7 @@ export const dealerApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
   }),
+  refetchOnMountOrArgChange: 1,
   tagTypes: ['dealerProducts'],
   endpoints: (build) => ({
     getDealerProductsById: build.query<

@@ -3,6 +3,12 @@
 
   &__card {
     min-width: 400px;
+    width: 960px;
     padding: 15px;
+  }
+
+  &__product {
+    padding: 20px;
+    height: 140px;
   }
 }

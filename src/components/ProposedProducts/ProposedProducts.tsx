@@ -1,106 +1,114 @@
 import React from 'react';
 import {
   Table,
-  withTableActions,
   Container,
   Card,
-  Modal,
   TableDataItem,
   Text,
   Flex,
+  Button,
 } from '@gravity-ui/uikit';
-import ProposedProductInfo from '@components/ProposedProductInfo/ProposedProductInfo.tsx';
-import { CircleInfo } from '@gravity-ui/icons';
-import { Check } from '@gravity-ui/icons';
 import './ProposedProducts.scss';
 import { useGetProposedProductsQuery } from '@src/services/ProposedService';
 import Spinner from '../Spinner/Spinner';
+import { useNavigate } from 'react-router-dom';
+import { useChooseProductMutation } from '@src/services/RecommendationsService.ts';
 
 export type ProductItem = {
   id: string;
-  item: string;
+  productName: string;
   accuracy: string;
 };
-
-const ProposedProductsTable = withTableActions(Table);
 
 const columns = [
   { id: 'id', name: 'id' },
   { id: 'levenshteinDistance', name: 'Точность' },
-  { id: 'productName', name: 'Товар производителя' },
+  { id: 'productName', name: 'Товар производителя', width: 770 },
 ];
 
 interface ProposedProducts {
   dealerPriceId: number;
+  limit: number;
 }
 
-const ProposedProducts: React.FC<ProposedProducts> = ({ dealerPriceId }) => {
-  const [open, setOpen] = React.useState(false);
-  const [index, setIndex] = React.useState<number | null>(null);
-  const [productItem, setProductItem] = React.useState<
-    ProductItem | TableDataItem
-  >({});
+const ProposedProducts: React.FC<ProposedProducts> = ({
+  dealerPriceId,
+  limit,
+}) => {
+  const navigate = useNavigate();
+  const [chosenProduct, setChosenProduct] = React.useState<string>('');
+  const [chosenProductId, setChosenProductId] = React.useState(null);
 
   const { data, isLoading, isError } = useGetProposedProductsQuery({
     dealerPriceId,
+    limit,
   });
 
-  const handleClick = (item: ProductItem | TableDataItem, index: number) => {
-    console.log('Click');
-    console.log(item, index);
+  const [chooseProduct] = useChooseProductMutation();
+
+  const handleTableClick = (item: ProductItem | TableDataItem) => {
+    setChosenProductId(item.id);
+    setChosenProduct(item.productName);
   };
 
-  const getRowActions = (item: ProductItem | TableDataItem, index: number) => {
-    return [
-      {
-        icon: <CircleInfo />,
-        text: 'Подробно',
-        handler: () => {
-          console.log(item, index);
-          setProductItem(item);
-          setIndex(index);
-          setOpen(true);
-        },
-      },
-      {
-        icon: <Check />,
-        text: 'Выбрать',
-        handler: () => {
-          setProductItem(item);
-          setIndex(index);
-        },
-      },
-    ];
+  const handleAddClick = () => {
+    try {
+      chooseProduct({ dealerId: dealerPriceId, productId: chosenProductId });
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  //Temporary solution
   const getProposedTable = () => {
-    if (!isLoading && !isError) {
+    if (data?.length && !isLoading && !isError) {
       return (
-        <ProposedProductsTable
-          data={data}
-          columns={columns}
-          getRowActions={getRowActions}
-          onRowClick={handleClick}
-        />
+        <Flex direction="column" space={2}>
+          <Card className="proposed-products__product">
+            <Flex direction="column" space={3}>
+              <Text variant="header-1">Выбранный товар:</Text>
+
+              <Text variant="body-2">{chosenProduct}</Text>
+              {chosenProduct && (
+                <Flex space={3}>
+                  <Button
+                    view="outlined-success"
+                    size="l"
+                    onClick={handleAddClick}
+                  >
+                    Добавить
+                  </Button>
+                </Flex>
+              )}
+            </Flex>
+          </Card>
+          <Card className="proposed-products__card">
+            <Flex direction="column">
+              <Text variant="header-1">Рекомендательная система</Text>
+              <Table
+                data={data}
+                columns={columns}
+                onRowClick={handleTableClick}
+              />
+            </Flex>
+          </Card>
+        </Flex>
       );
-    } else {
-      return <Text>Рекомендательная модель выбрана</Text>;
+    } else if (!isLoading) {
+      return (
+        <Flex direction="column" space={2} alignItems="center">
+          <Text color="danger" variant="body-2">
+            Рекомендации не найдены
+          </Text>
+        </Flex>
+      );
     }
   };
 
   return (
     <Container className="proposed-products">
-      <Card className="proposed-products__card">
-        <Flex direction="column">
-          <Text variant="header-1">Рекомендательная система</Text>
-          {isLoading && <Spinner />}
-          {getProposedTable()}
-        </Flex>
-      </Card>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <ProposedProductInfo product={productItem} index={index} />
-      </Modal>
+      {isLoading && <Spinner />}
+      {getProposedTable()}
     </Container>
   );
 };
