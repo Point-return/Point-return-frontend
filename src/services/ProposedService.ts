@@ -14,8 +14,8 @@ export const proposedApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (build) => ({
     getProposedProducts: build.query({
-      query: ({ dealerPriceId }) => ({
-        url: `${PROPOSED_ENDPOINTS.getProposedProducts}/${dealerPriceId}`,
+      query: ({ dealerPriceId, limit }) => ({
+        url: `${PROPOSED_ENDPOINTS.getProposedProducts}/${dealerPriceId}?limit=${limit}`,
         method: 'GET',
       }),
     }),

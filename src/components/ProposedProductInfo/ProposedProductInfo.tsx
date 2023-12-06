@@ -13,7 +13,7 @@ const ProposedProductInfo: React.FC<ProposedProductInfo> = (props) => {
   console.log(props.index);
   return (
     <Card className="card" type="container" size="l">
-      <Text variant="header-1">{props.product.item}</Text>;
+      <Text variant="header-1">{props.product.productName}</Text>;
     </Card>
   );
 };

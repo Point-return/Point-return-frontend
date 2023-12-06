@@ -28,6 +28,25 @@ export type DealerProductsByIdRequest = {
   page: number;
 };
 
+export type StatisticResponse = {
+  QuantitySkipped: number;
+  QuantitySuccessfull: number;
+  percent: string;
+};
+
+export type StatisticRequest = {
+  dealerId: number;
+};
+
+export type chooseProductRequest = {
+  dealerId: number;
+  productId: number;
+};
+
+export type skipProductRequest = {
+  dealerId: number;
+};
+
 export interface IUser {
   id: number;
   email: string;
