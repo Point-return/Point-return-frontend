@@ -5,6 +5,7 @@ import { recommendationsAPI } from '@src/services/RecommendationsService.ts';
 import { statisticsApi } from '@src/services/StatisticsService';
 import { authApi } from '@src/services/AuthService';
 import { userApi } from '@src/services/UserService';
+import { productApi } from '@src/services/ManufacturerService.ts';
 import themeReducer from './reducers/themeSlice';
 import userReducer from './reducers/userSlice';
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   [dealerApi.reducerPath]: dealerApi.reducer,
   [recommendationsAPI.reducerPath]: recommendationsAPI.reducer,
   [statisticsApi.reducerPath]: statisticsApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   themeReducer,
@@ -27,6 +29,7 @@ export const store = configureStore({
       dealerApi.middleware,
       recommendationsAPI.middleware,
       statisticsApi.middleware,
+      productApi.middleware,
       authApi.middleware,
       userApi.middleware,
     );

@@ -10,7 +10,7 @@ import {
 } from '@gravity-ui/uikit';
 import './ProposedProducts.scss';
 import { useGetProposedProductsQuery } from '@src/services/ProposedService';
-import Spinner from '../Spinner/Spinner';
+import Spinner from '@src/components/Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useChooseProductMutation } from '@src/services/RecommendationsService.ts';
 
