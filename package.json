@@ -1,7 +1,7 @@
 {
   "name": "point-return-frontend",
   "private": true,
-  "homepage": "https://ilyabiryulev.github.io/point-return-frontend/login",
+  "homepage": ".",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

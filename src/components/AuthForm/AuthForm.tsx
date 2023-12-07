@@ -22,13 +22,11 @@ import { IUser } from '@src/services/models';
 const AuthForm: FC = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const { values, errors, isValid, onChange } = useValidation();
-  const [loginUser, { data: auth, isSuccess, isLoading, isError }] = useLoginUserMutation();
+  const [loginUser, { isSuccess, isLoading, isError }] = useLoginUserMutation();
   const { data } = useGetUserQuery();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { add } = useToaster();
-
-  console.log(auth);
 
   const userData = data as IUser;
 
