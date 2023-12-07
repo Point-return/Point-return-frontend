@@ -26,12 +26,14 @@ export const recommendationsAPI = createApi({
         url: `${RECOMMENDATIONS_ENDPOINTS.chooseProduct}/${dealerId}/choose`,
         params: { productId: productId },
         method: 'PATCH',
+        credentials: 'include',
       }),
     }),
     skipProduct: build.mutation<void, skipProductRequest>({
       query: ({ dealerId }) => ({
         url: `${RECOMMENDATIONS_ENDPOINTS.skipProduct}/${dealerId}/skip`,
         method: 'PATCH',
+        credentials: 'include',
       }),
     }),
   }),

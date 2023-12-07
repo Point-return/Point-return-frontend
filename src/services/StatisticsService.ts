@@ -21,12 +21,14 @@ export const statisticsApi = createApi({
       query: () => ({
         url: `${PROPOSED_ENDPOINTS.getGlobalStatistic}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
     getDealerStatistic: build.query<StatisticResponse, StatisticRequest>({
       query: ({ dealerId }) => ({
         url: `${PROPOSED_ENDPOINTS.getDealerStatistic}/${dealerId}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
   }),

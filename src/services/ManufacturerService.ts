@@ -27,6 +27,7 @@ export const productApi = createApi({
       query: ({ productKey }) => ({
         url: `${MANUFACTURER_ENDPOINTS.getProductByKey}/${productKey}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
   }),

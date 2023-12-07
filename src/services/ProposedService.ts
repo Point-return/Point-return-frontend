@@ -17,6 +17,7 @@ export const proposedApi = createApi({
       query: ({ dealerPriceId, limit }) => ({
         url: `${PROPOSED_ENDPOINTS.getProposedProducts}/${dealerPriceId}?limit=${limit}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
   }),
