@@ -5,6 +5,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/point-return-frontend/',
   plugins: [react()],
   css: {
     preprocessorOptions: {
