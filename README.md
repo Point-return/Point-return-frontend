@@ -1,18 +1,16 @@
 # Point-return-frontend
 
 ## User Interface of the recommendation system Point return. 
+[Point-return](https://point-return.github.io)
 
 ## Install
  - node 20.9.0+
  - npm 10.1.0+
-```
-   npm install
-```
 
 ## Getting started
 
 ```
-    npm run ci ???
+    npm run ci
     npm run dev
     npm run build
 ```
@@ -27,24 +25,29 @@
 
 
 ### UI kit 
-The project uses the new modern UI kit Gravity.
+The project uses the new modern UI kit [Gravity](https://gravity-ui.com/).
 
 ![Grabity](https://avatars.githubusercontent.com/u/107542106?s=280&v=4)
 
 
 ## Screenshots
 ### Login page
-![Screenshot 2023-12-06 at 19 44 49](https://github.com/Point-return/Point-return-frontend/assets/29550018/33a9671e-d6bd-4493-bb14-77fcb0a73f78)
+![Screenshot 2023-12-07 at 23 19 50](https://github.com/Point-return/Point-return-frontend/assets/29550018/890412af-2af1-4db1-8576-b333c2eba09b)
+
 
 ### Main page
-![Screenshot 2023-12-06 at 19 45 38](https://github.com/Point-return/Point-return-frontend/assets/29550018/b6d8a024-3065-4bee-8187-e52f8ef473ad)
+![Screenshot 2023-12-07 at 23 17 29](https://github.com/Point-return/Point-return-frontend/assets/29550018/ca535598-eb8f-4a9d-a164-e32b53838ac4)
 
 ### Proposed product page
-![Screenshot 2023-12-06 at 19 46 16](https://github.com/Point-return/Point-return-frontend/assets/29550018/3a2c5467-d3e6-4cab-8284-98f2bb5443c2)
+![Screenshot 2023-12-07 at 23 19 01](https://github.com/Point-return/Point-return-frontend/assets/29550018/454c4b74-7858-4dcd-97f7-e82c08e2df1a)
+
+### Chosen product
+![Screenshot 2023-12-07 at 23 20 52](https://github.com/Point-return/Point-return-frontend/assets/29550018/2de80d6d-ee32-4ac3-977e-92a426cd383b)
+
 
 ## Authors 
-![@m0000Amir](https://img.shields.io/badge/-%40m0000Amir-blue?style=for-the-badge)
-[![@IlyaBiryulev](https://img.shields.io/badge/-%40@IlyaBiryulev-blue?style=for-the-badge)](https://github.com/IlyaBiryulev)
+[![@m0000Amir](https://img.shields.io/badge/-%40m0000Amir-blue?style=for-the-badge)](https://github.com/m0000Amir)
+[![@IlyaBiryulev](https://img.shields.io/badge/-%40IlyaBiryulev-blue?style=for-the-badge)](https://github.com/IlyaBiryulev)
 
 ## [![Click star!](https://img.shields.io/badge/-Click%20star!-yellow?style=for-the-badge)](https://github.com/Point-return/Point-return-frontend) 
 ⭐⭐⭐⭐⭐
