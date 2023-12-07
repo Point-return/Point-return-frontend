@@ -1,17 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-/* export interface dealerState {
-  dealerId: number;
-  activeId: number;
-} */
+export interface pageState {
+  pageNumber: number;
+}
 
-const initialState = {
-  pageNumber: localStorage.getItem('pageNumber')
-    ? JSON.parse(localStorage.getItem('pageNumber')!)
-    : 1,
-  pageSizeNumber: localStorage.getItem('pageSizeNumber')
-    ? JSON.parse(localStorage.getItem('pageSizeNumber')!)
-    : 10,
+const initialState: pageState = {
+  pageNumber: 1,
 };
 
 export const pageSlice = createSlice({
@@ -20,17 +14,9 @@ export const pageSlice = createSlice({
   reducers: {
     setPage: (state, action: PayloadAction<number>) => {
       state.pageNumber = action.payload;
-      localStorage.setItem('pageNumber', JSON.stringify(state.pageNumber));
-    },
-    setPageSize: (state, action: PayloadAction<number>) => {
-      state.pageSizeNumber = action.payload;
-      localStorage.setItem(
-        'pageSizeNumber',
-        JSON.stringify(state.pageSizeNumber),
-      );
     },
   },
 });
 
-export const { setPage, setPageSize } = pageSlice.actions;
+export const { setPage } = pageSlice.actions;
 export default pageSlice.reducer;

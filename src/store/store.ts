@@ -10,6 +10,7 @@ import themeReducer from './reducers/themeSlice';
 import userReducer from './reducers/userSlice';
 import dealerReducer from './reducers/dealerSlice';
 import pageReducer from './reducers/pageSlice';
+import pageSizeReducer from './reducers/pageSizeSlice';
 
 const rootReducer = combineReducers({
   [proposedApi.reducerPath]: proposedApi.reducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   themeReducer,
   userReducer,
   pageReducer,
+  pageSizeReducer,
 });
 
 export const store = configureStore({

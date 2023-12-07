@@ -29,7 +29,8 @@ import {
 import MarketingProductInfo from '@components/MarketingProductInfo/MarketingProductInfo.tsx';
 import { useAppDispatch, useAppSelector } from '@src/hooks/redux';
 import { setActiveId, setDealerId } from '@src/store/reducers/dealerSlice';
-import { setPage, setPageSize } from '@src/store/reducers/pageSlice';
+import { setPage } from '@src/store/reducers/pageSlice';
+import { setPageSize } from '@src/store/reducers/pageSizeSlice';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
@@ -67,9 +68,8 @@ const MarketingProductList: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const { dealerId, activeId } = useAppSelector((state) => state.dealerReducer);
-  const { pageNumber, pageSizeNumber } = useAppSelector(
-    (state) => state.pageReducer,
-  );
+  const { pageNumber } = useAppSelector((state) => state.pageReducer);
+  const { pageSizeNumber } = useAppSelector((state) => state.pageSizeReducer);
 
   const navigate = useNavigate();
   const MarketingProductsTable = withTableActions(withTableSorting(Table));
@@ -118,11 +118,6 @@ const MarketingProductList: React.FC = () => {
   const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize): void => {
     dispatch(setPage(page));
     dispatch(setPageSize(pageSize));
-    /* setTableState((prevState) => ({
-      ...prevState,
-      page: dispatch(setPage(page)),
-      pageSize,
-    })); */
   };
 
   return (
@@ -137,6 +132,8 @@ const MarketingProductList: React.FC = () => {
                   key={dealer.id}
                   active={activeId === dealer?.id}
                   onClick={() => {
+                    dispatch(setPage(1));
+                    dispatch(setPageSize(10));
                     dispatch(setDealerId(dealer?.id));
                     dispatch(setActiveId(dealer?.id));
                     setTableState((prevState: TTableState) => ({
@@ -178,7 +175,7 @@ const MarketingProductList: React.FC = () => {
               <Pagination
                 className="card__pagination"
                 page={pageNumber}
-                pageSize={tableState.pageSize}
+                pageSize={pageSizeNumber}
                 total={total}
                 pageSizeOptions={[10, 50, 100]}
                 onUpdate={handleUpdate}
