@@ -22,7 +22,7 @@ const MarketingProductInfo: FC<MarketingProductInfo> = ({ item }) => {
           <Flex direction="column" space={2}>
             <Text variant="body-2">Id: {product?.id || '-'}</Text>
             <Text variant="body-2">Артикль: {product?.article || '-'}</Text>
-            <Text variant="body-2">Цена: {product?.cost || '-'}</Text>
+            <Text variant="body-2">{`Цена: ${product?.cost || '-'}р.`}</Text>
           </Flex>
         </Flex>
       )}
