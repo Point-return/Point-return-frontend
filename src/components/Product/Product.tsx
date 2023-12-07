@@ -59,11 +59,11 @@ const Product: React.FC = () => {
             <Text variant="header-1">Товар: {product.productName}</Text>
             <Text variant="body-1">
               <Link href={product.productUrl} target="_blank">
-                URL продукта
+                Ссылка на товар дилера
               </Link>
             </Text>
             <Button view="outlined-danger" size="l" onClick={handleSkipClick}>
-              Не найдено
+              Пропустить
             </Button>
           </Flex>
         </Card>
