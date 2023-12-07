@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { BASE_URL } from '@src/services/common/consts/ApiConsts.ts';
 import { getBackendAuthURL } from '@src/services/common/utils/apiUtils.ts';
-/* import { userApi } from './UserService'; */
 import { logout } from '@src/store/reducers/userSlice';
 
 const ROOT_LOGIN_URL = 'auth/login';
