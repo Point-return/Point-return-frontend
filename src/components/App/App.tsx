@@ -14,7 +14,7 @@ import ProtectedRouteElement from '@components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   const { theme } = useAppSelector((state) => state.themeReducer);
-  console.log(import.meta.env.MODE)
+
   return (
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <ToasterProvider>

@@ -38,7 +38,7 @@ const columns = [
   },
   {
     id: 'productKey',
-    name: 'id товара производителя',
+    name: 'Ключ товара производителя',
     meta: { sort: true },
     align: 'center' as const,
   },
@@ -91,7 +91,7 @@ const MarketingProductList: React.FC = () => {
   const getRowActions = () => {
     return [
       {
-        text: 'Посмотреть товар производителя',
+        text: 'Посмотреть товар Prosept',
         handler: handleAction,
       },
     ];
@@ -149,7 +149,7 @@ const MarketingProductList: React.FC = () => {
           space={5}
           justifyContent="center"
         >
-          <Flex space={10}>
+          <Flex space={10} justifyContent="space-between">
             <Text variant="header-2">Товары: </Text>
             <TextInput
               className="product-list__search"
