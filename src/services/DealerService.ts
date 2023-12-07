@@ -30,12 +30,14 @@ export const dealerApi = createApi({
       query: ({ id, size, page }) => ({
         url: `${DEALER_ENDPOINTS.getDealerProductsById}/${id}?size=${size}&page=${page}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
     getDealers: build.query<DealersResponse, void>({
       query: () => ({
         url: `${DEALER_ENDPOINTS.getDealers}`,
         method: 'GET',
+        credentials: 'include',
       }),
     }),
   }),

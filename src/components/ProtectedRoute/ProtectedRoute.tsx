@@ -13,11 +13,7 @@ const ProtectedRouteElement = () => {
     return <Spinner />;
   }
 
-  return loggedIn || data ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
-  );
+  return loggedIn || data ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRouteElement;
