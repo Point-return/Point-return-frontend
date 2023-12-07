@@ -20,8 +20,6 @@ function UserMenu() {
   const { user, loggedIn } = useAppSelector((state) => state.userReducer);
   const [logoutUser] = useLogoutUserMutation();
 
-  console.log(user);
-
   const userName = user?.username as string;
 
   return loggedIn ? (
@@ -29,20 +27,20 @@ function UserMenu() {
       <Flex>
         <Persona type="person" text={userName} hasBorder={false} />
         <DropdownMenu
-          switcher={
-            <Button view="flat">
+          renderSwitcher={(props) => (
+            <Button {...props} view="flat">
               <Icon size={16} data={Bars} />
             </Button>
-          }
+          )}
           items={[
             {
-              icon: <Icon size={16} data={At} />,
-              action: () => console.log('Rename'),
+              iconStart: <Icon size={16} data={At} />,
+              action: () => {},
               text: `${user?.email}`,
               disabled: true,
             },
             {
-              icon: <Icon size={16} data={ArrowRightFromSquare} />,
+              iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
               action: async () => {
                 await logoutUser();
                 navigation('/login', { replace: true });

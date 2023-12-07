@@ -1,6 +1,6 @@
 import React from 'react';
-import './MarketingProductPage.scss';
 import MarketingProductList from '@components/MarketingProductList/MarketingProductList.tsx';
+import './MarketingProductPage.scss';
 
 function MarketingProductPage() {
   return (
