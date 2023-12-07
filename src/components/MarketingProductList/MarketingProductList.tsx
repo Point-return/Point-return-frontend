@@ -27,6 +27,9 @@ import {
   useGetGlobalStatisticQuery,
 } from '@src/services/StatisticsService';
 import MarketingProductInfo from '@components/MarketingProductInfo/MarketingProductInfo.tsx';
+import { useAppDispatch, useAppSelector } from '@src/hooks/redux';
+import { setActiveId, setDealerId } from '@src/store/reducers/dealerSlice';
+import { setPage, setPageSize } from '@src/store/reducers/pageSlice';
 
 const columns = [
   { id: 'id', name: 'id', meta: { sort: true } },
@@ -53,8 +56,6 @@ type TTableState = {
 
 const MarketingProductList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeId, setActiveId] = useState<number>(0);
-  const [dealerId, setDealerId] = useState<number>(1);
   const [tableState, setTableState] = useState<TTableState>({
     page: 1,
     pageSize: 10,
@@ -64,14 +65,20 @@ const MarketingProductList: React.FC = () => {
     {},
   );
 
+  const dispatch = useAppDispatch();
+  const { dealerId, activeId } = useAppSelector((state) => state.dealerReducer);
+  const { pageNumber, pageSizeNumber } = useAppSelector(
+    (state) => state.pageReducer,
+  );
+
   const navigate = useNavigate();
   const MarketingProductsTable = withTableActions(withTableSorting(Table));
 
   const { data: dealers } = useGetDealersQuery();
   const { data: dealerProducts } = useGetDealerProductsByIdQuery({
     id: dealerId,
-    size: tableState.pageSize,
-    page: tableState.page,
+    size: pageSizeNumber,
+    page: pageNumber,
   });
   const { data: GlobalStats } = useGetGlobalStatisticQuery();
   const { data: DealerStats } = useGetDealerStatisticQuery({ dealerId });
@@ -109,7 +116,13 @@ const MarketingProductList: React.FC = () => {
   };
 
   const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize): void => {
-    setTableState((prevState) => ({ ...prevState, page, pageSize }));
+    dispatch(setPage(page));
+    dispatch(setPageSize(pageSize));
+    /* setTableState((prevState) => ({
+      ...prevState,
+      page: dispatch(setPage(page)),
+      pageSize,
+    })); */
   };
 
   return (
@@ -124,12 +137,12 @@ const MarketingProductList: React.FC = () => {
                   key={dealer.id}
                   active={activeId === dealer?.id}
                   onClick={() => {
-                    setActiveId(dealer?.id);
-                    setDealerId(dealer?.id);
+                    dispatch(setDealerId(dealer?.id));
+                    dispatch(setActiveId(dealer?.id));
                     setTableState((prevState: TTableState) => ({
                       ...prevState,
-                      page: 1,
-                      pageSize: 10,
+                      page: tableState.page,
+                      pageSize: tableState.pageSize,
                     }));
                   }}
                 >
@@ -164,7 +177,7 @@ const MarketingProductList: React.FC = () => {
             <Flex direction="column" space={5}>
               <Pagination
                 className="card__pagination"
-                page={tableState.page}
+                page={pageNumber}
                 pageSize={tableState.pageSize}
                 total={total}
                 pageSizeOptions={[10, 50, 100]}

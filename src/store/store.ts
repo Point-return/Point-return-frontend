@@ -8,6 +8,8 @@ import { userApi } from '@src/services/UserService';
 import { productApi } from '@src/services/ManufacturerService.ts';
 import themeReducer from './reducers/themeSlice';
 import userReducer from './reducers/userSlice';
+import dealerReducer from './reducers/dealerSlice';
+import pageReducer from './reducers/pageSlice';
 
 const rootReducer = combineReducers({
   [proposedApi.reducerPath]: proposedApi.reducer,
@@ -17,8 +19,10 @@ const rootReducer = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
+  dealerReducer,
   themeReducer,
   userReducer,
+  pageReducer,
 });
 
 export const store = configureStore({
